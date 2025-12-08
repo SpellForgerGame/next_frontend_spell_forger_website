@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* SpellForger Design System - Magical Dark Theme
+Deep purples, gold, and dark blues for a mystical experience.
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* SpellForger Dark Magic Theme */
+    --background: 240 15% 8%;
+    --foreground: 280 20% 90%;
+
+    --card: 250 20% 12%;
+    --card-foreground: 280 20% 90%;
+
+    --popover: 250 20% 12%;
+    --popover-foreground: 280 20% 90%;
+
+    --primary: 270 60% 40%;
+    --primary-foreground: 280 20% 95%;
+
+    --secondary: 220 30% 20%;
+    --secondary-foreground: 280 20% 90%;
+
+    --muted: 240 20% 15%;
+    --muted-foreground: 280 10% 60%;
+
+    --accent: 45 100% 65%;
+    --accent-foreground: 240 15% 8%;
+
+    --gold: 45 100% 65%;
+    --gold-foreground: 240 15% 8%;
+
+    --magic-purple: 270 60% 40%;
+    --magic-purple-dark: 270 80% 25%;
+    --magic-blue: 220 60% 30%;
+    --magic-blue-dark: 220 80% 20%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 280 20% 95%;
+
+    --border: 240 30% 18%;
+    --input: 240 30% 18%;
+    --ring: 270 60% 40%;
+
+    --radius: 0.75rem;
+
+    /* Gradients for magical effects */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--magic-purple)), hsl(var(--magic-blue)));
+    --gradient-gold: linear-gradient(135deg, hsl(var(--gold)), hsl(45 100% 75%));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(240 25% 15%));
+    
+    /* Shadows for mystical depth */
+    --shadow-magical: 0 10px 30px -10px hsl(var(--magic-purple) / 0.3);
+    --shadow-gold: 0 5px 20px -5px hsl(var(--gold) / 0.4);
+    --shadow-card: 0 8px 25px -8px hsl(240 50% 5% / 0.6);
+
+    /* Animations */
+    --transition-magical: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
