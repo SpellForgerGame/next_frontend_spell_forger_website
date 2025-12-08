@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { api, Spell } from '@/services/api';
-import { useAuth } from '@/contexts/AuthContext';
+'use client';
+
 import SpellCard from '@/components/SpellCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { Search, Filter, Sparkles, RefreshCw, TrendingUp, Clock, Flame, User } from 'lucide-react';
+import { api, Spell } from '@/services/api';
+import { Clock, Filter, Flame, RefreshCw, Search, Sparkles, TrendingUp, User } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-const Spells: React.FC = () => {
-  const [spells, setSpells] = useState<Spell[]>([]);
+
+function Spells({ initialSpells = [] }: { initialSpells: Spell[] }) {
+  const [spells, setSpells] = useState<Spell[]>(initialSpells || []);
   const [filteredSpells, setFilteredSpells] = useState<Spell[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -19,8 +22,6 @@ const Spells: React.FC = () => {
   const { toast } = useToast();
   const { user } = useAuth();
 
-
-  console.log(spells)
 
   const fetchSpells = async () => {
     setIsLoading(true);
