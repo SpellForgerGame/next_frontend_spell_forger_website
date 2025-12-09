@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { Spell } from '@/services/api';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ChevronUp, ChevronDown, User, Eye } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
-import api from '@/services/api';
 import { useToast } from '@/hooks/use-toast';
+import api, { Spell } from '@/services/api';
+import { ChevronDown, ChevronUp, Eye, User } from 'lucide-react';
+import React, { useState } from 'react';
 import SpellDetailModal from './SpellDetailModal';
 
 interface SpellCardProps {
@@ -34,7 +33,7 @@ const SpellCard: React.FC<SpellCardProps> = ({ spell, onVoteUpdate, onSpellUpdat
       const updatedSpell = await api.voteSpell(spell.id, voteType);
       
       // 2. Usa a resposta direta do back-end para atualizar o estado
-      onVoteUpdate(updatedSpell.id, updatedSpell.vote_count, updatedSpell.user_vote);
+      onVoteUpdate(updatedSpell.id, updatedSpell.vote_count, updatedSpell.user_vote ?? null);
       
       toast({
         title: "Vote Updated!",

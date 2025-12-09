@@ -9,29 +9,31 @@ const apiClient = axios.create({
   },
 });
 
+const getStoredToken = () => {
+  if (globalThis.window === undefined) return null;
+  return globalThis.localStorage.getItem('token');
+};
+ 
 // Add request interceptor to include the JWT token from localStorage
 apiClient.interceptors.request.use(
   (config) => {
-    // Atenção: o nome do item no localStorage deve ser o mesmo que você salva após o login
-    const token = localStorage.getItem('token'); 
+    const token = getStoredToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 // Add response interceptor to handle token expiration (optional but good practice)
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      // If token is invalid, remove it and redirect to login
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+    if (error.response?.status === 401 && globalThis.window !== undefined) {
+      // If token is invalid, remove it and redirect to login (client-side only)
+      globalThis.localStorage.removeItem('token');
+      globalThis.window.location.href = '/login';
     }
     return Promise.reject(error);
   }

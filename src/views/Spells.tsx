@@ -5,44 +5,21 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useAuth } from '@/contexts/AuthContext';
-import { useToast } from '@/hooks/use-toast';
-import { api, Spell } from '@/services/api';
-import { Clock, Filter, Flame, RefreshCw, Search, Sparkles, TrendingUp, User } from 'lucide-react';
+import { Spell } from '@/services/api';
+import { Clock, Filter, Flame, Search, Sparkles, TrendingUp, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 
-function Spells({ initialSpells = [] }: { initialSpells: Spell[] }) {
+function Spells({ initialSpells = [] }: Readonly<{ initialSpells: Spell[] }>) {
   const [spells, setSpells] = useState<Spell[]>(initialSpells || []);
-  const [filteredSpells, setFilteredSpells] = useState<Spell[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [filteredSpells, setFilteredSpells] = useState<Spell[]>([]); 
   const [searchTerm, setSearchTerm] = useState('');
   const [elementFilter, setelementFilter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('newest');
-  const [showMySpells, setShowMySpells] = useState(false);
-  const { toast } = useToast();
+  const [showMySpells, setShowMySpells] = useState(false); 
   const { user } = useAuth();
-
-
-  const fetchSpells = async () => {
-    setIsLoading(true);
-    try {
-      const response = await api.getSpells();
-      setSpells(response);
-    } catch (error: any) {
-      toast({
-        title: "Failed to Load Spells",
-        description: error.response?.data?.message || "Could not fetch spells. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Fetch spells on component mount
-  useEffect(() => {
-    fetchSpells();
-  }, []);
+ 
+ 
 
   // Filter and sort spells when dependencies change
   useEffect(() => {
@@ -134,6 +111,7 @@ function Spells({ initialSpells = [] }: { initialSpells: Spell[] }) {
     }
   };
 
+  /*
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
@@ -156,7 +134,7 @@ function Spells({ initialSpells = [] }: { initialSpells: Spell[] }) {
         </div>
       </div>
     );
-  }
+  }*/
 
   return (
     <div className="min-h-screen bg-background">
@@ -235,7 +213,7 @@ function Spells({ initialSpells = [] }: { initialSpells: Spell[] }) {
               </Button>
             )}
 
-            {/* Refresh */}
+            {/* Refresh
             <Button
               variant="outline"
               size="icon"
@@ -244,7 +222,7 @@ function Spells({ initialSpells = [] }: { initialSpells: Spell[] }) {
               className="shrink-0"
             >
               <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
-            </Button>
+            </Button> */}
           </div>
         </div>
 
