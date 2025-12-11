@@ -32,7 +32,7 @@ async function fetchSpells(): Promise<Spell[]> {
   } catch (err) {
     throw new Error('Failed to authenticate to fetch spells' + JSON.stringify(err));
   }
-  const fetchUrl = `${baseUrl}/spells`;
+  const fetchUrl = `${baseUrl}spells`;
   const response = await fetch(fetchUrl, {
     next: { revalidate },
     headers: {
