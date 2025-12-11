@@ -19,19 +19,29 @@ async function fetchSpells(): Promise<Spell[]> {
       'Content-Type': 'application/json',
     },
   });
-  const loginResponse = await apiClient.post('/token', formData, {
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-  });
+
+  let accessToken;
+  try { 
+    const loginResponse = await apiClient.post('/token', formData, {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    });
+    accessToken = loginResponse.data.access_token;
+    if(!accessToken) {
+      throw new Error('No access token received');
+    }
+  } catch (err) {
+    throw new Error('Failed to authenticate to fetch spells' + JSON.stringify(err));
+  }
 
   const response = await fetch(`${baseUrl}/spells`, {
     next: { revalidate },
     headers: {
-      Authorization: `Bearer ${loginResponse.data.access_token}`
+      Authorization: `Bearer ${accessToken}`
     }
   });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch spells');
+    throw new Error('Failed to fetch spells, ' + response.status.toString());
   }
 
   return response.json();
