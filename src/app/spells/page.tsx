@@ -43,7 +43,7 @@ async function fetchSpells(): Promise<Spell[]> {
   if (!response.ok) {
     throw new Error('Failed to fetch spells from ' + fetchUrl + ', ' + response.status.toString());
   }
-
+  throw new Error('Debug: ' + JSON.stringify(response));
   return response.json();
 }
 
