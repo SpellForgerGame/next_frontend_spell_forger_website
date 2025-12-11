@@ -1,14 +1,14 @@
-import React from 'react';
-import Link from 'next/link';
+import heroImage from '@/assets/hero-spellforge.jpg';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Sparkles, ScrollText, Users, TrendingUp, Wand2, BookOpen, Star } from 'lucide-react';
-import heroImage from '@/assets/hero-spellforge.jpg';
+import { BookOpen, ScrollText, Sparkles, Star, TrendingUp, Users, Wand2 } from 'lucide-react';
+import Link from 'next/link';
+import React from 'react';
 
 const Home: React.FC = () => {
   return (
     // 1. REMOVI O 'bg-background' DAQUI 👇
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       
       {/* Hero Section */}
       <section className="relative py-20 px-4 overflow-hidden">
