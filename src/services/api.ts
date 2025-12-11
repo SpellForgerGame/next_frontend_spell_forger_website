@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { env } from 'process';
 
 
 // Create axios instance with the correct base URL
@@ -13,7 +14,7 @@ const getStoredToken = () => {
   if (globalThis.window === undefined) return null;
   return globalThis.localStorage.getItem('token');
 };
- 
+
 // Add request interceptor to include the JWT token from localStorage
 apiClient.interceptors.request.use(
   (config) => {
@@ -86,9 +87,9 @@ export const api = {
     const formData = new URLSearchParams();
     formData.append('username', data.username);
     formData.append('password', data.password);
-    
+
     const response = await apiClient.post('/token', formData, {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     });
     return response.data; // Returns { access_token: string, token_type: string }
   },
@@ -100,7 +101,22 @@ export const api = {
 
   // Spells (Full CRUD)
   getSpells: async (): Promise<Spell[]> => {
-    const response = await apiClient.get('/spells');
+
+    const formData = new URLSearchParams();
+    formData.append('username', env.USER_NAME!);
+    formData.append('password', env.USER_PASSWORD!);
+
+    const loginResponse = await apiClient.post('/token', formData, {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    });
+
+    const response = await apiClient.get('/spells',
+      {
+        headers: {
+          Authorization: `Bearer ${loginResponse.data.access_token}`
+        }
+      }
+    );
     return response.data;
   },
 
@@ -108,7 +124,7 @@ export const api = {
     const response = await apiClient.post('/spells', data);
     return response.data;
   },
-  
+
   updateSpell: async (spellId: number, data: SpellFormData): Promise<Spell> => {
     const response = await apiClient.put(`/spells/${spellId}`, data);
     return response.data;
