@@ -12,14 +12,14 @@ import { useEffect, useState } from 'react';
 
 function Spells({ initialSpells = [] }: Readonly<{ initialSpells: Spell[] }>) {
   const [spells, setSpells] = useState<Spell[]>(initialSpells || []);
-  const [filteredSpells, setFilteredSpells] = useState<Spell[]>([]); 
+  const [filteredSpells, setFilteredSpells] = useState<Spell[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [elementFilter, setelementFilter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('newest');
-  const [showMySpells, setShowMySpells] = useState(false); 
+  const [showMySpells, setShowMySpells] = useState(false);
   const { user } = useAuth();
- 
- 
+
+
 
   // Filter and sort spells when dependencies change
   useEffect(() => {
@@ -27,7 +27,7 @@ function Spells({ initialSpells = [] }: Readonly<{ initialSpells: Spell[] }>) {
 
     // Apply search filter
     if (searchTerm) {
-      filtered = filtered.filter(spell => 
+      filtered = filtered.filter(spell =>
         spell.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         spell.description.toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -35,7 +35,7 @@ function Spells({ initialSpells = [] }: Readonly<{ initialSpells: Spell[] }>) {
 
     // Apply type filter
     if (elementFilter !== 'all') {
-      filtered = filtered.filter(spell => 
+      filtered = filtered.filter(spell =>
         spell.element.toLowerCase() === elementFilter.toLowerCase()
       );
     }
@@ -69,12 +69,12 @@ function Spells({ initialSpells = [] }: Readonly<{ initialSpells: Spell[] }>) {
     setFilteredSpells(filtered);
   }, [spells, searchTerm, elementFilter, sortBy, showMySpells, user]);
 
-  
+
 
   const handleVoteUpdate = (spellId: number, newVoteCount: number, userVote: 'upvote' | 'downvote' | null) => {
-    setSpells(prevSpells => 
-      prevSpells.map(spell => 
-        spell.id === spellId 
+    setSpells(prevSpells =>
+      prevSpells.map(spell =>
+        spell.id === spellId
           ? { ...spell, vote_count: newVoteCount, user_vote: userVote }
           : spell
       )
@@ -82,8 +82,8 @@ function Spells({ initialSpells = [] }: Readonly<{ initialSpells: Spell[] }>) {
   };
 
   const handleSpellUpdate = (updatedSpell: Spell) => {
-    setSpells(prevSpells => 
-      prevSpells.map(spell => 
+    setSpells(prevSpells =>
+      prevSpells.map(spell =>
         spell.id === updatedSpell.id ? updatedSpell : spell
       )
     );
@@ -241,7 +241,7 @@ function Spells({ initialSpells = [] }: Readonly<{ initialSpells: Spell[] }>) {
             </div>
             <h3 className="text-lg font-semibold text-foreground mb-2">No spells found</h3>
             <p className="text-muted-foreground mb-4">
-              {searchTerm || elementFilter !== 'all' 
+              {searchTerm || elementFilter !== 'all'
                 ? 'Try adjusting your search or filters'
                 : 'Be the first to submit a spell to the grimoire!'
               }
@@ -265,4 +265,53 @@ function Spells({ initialSpells = [] }: Readonly<{ initialSpells: Spell[] }>) {
   );
 };
 
+/*
+async function fetchSpells(): Promise<Spell[]> {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (!baseUrl) {
+    throw new Error('NEXT_PUBLIC_API_URL is not set');
+  }
+  const formData = new URLSearchParams();
+  formData.append('username', env.USER_NAME!);
+  formData.append('password', env.USER_PASSWORD!);
+
+  const apiClient = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const loginResponse = await apiClient.post('/token', formData, {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  });
+
+  const response = await apiClient.get('/spells',
+    {
+      headers: {
+        Authorization: `Bearer ${loginResponse.data.access_token}`
+      }
+    }
+  );
+ 
+  if (!response.status.toString().startsWith('2')) {
+    throw new Error('Failed to fetch spells');
+  }
+
+  return response.data;
+}
+
+
+export const revalidate = 30;
+
+export async function getStaticProps() {
+  const res = await fetchSpells();
+
+  return {
+    props: {
+      spells: res,
+    },
+    revalidate: revalidate,
+  }
+}
+*/
 export default Spells;
