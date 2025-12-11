@@ -32,8 +32,8 @@ async function fetchSpells(): Promise<Spell[]> {
   } catch (err) {
     throw new Error('Failed to authenticate to fetch spells' + JSON.stringify(err));
   }
-
-  const response = await fetch(`${baseUrl}/spells`, {
+  const fetchUrl = `${baseUrl}/spells`;
+  const response = await fetch(fetchUrl, {
     next: { revalidate },
     headers: {
       Authorization: `Bearer ${accessToken}`
@@ -41,7 +41,7 @@ async function fetchSpells(): Promise<Spell[]> {
   });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch spells, ' + response.status.toString());
+    throw new Error('Failed to fetch spells from ' + fetchUrl + ', ' + response.status.toString());
   }
 
   return response.json();
