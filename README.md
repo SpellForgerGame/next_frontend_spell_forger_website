@@ -1,7 +1,7 @@
 # SpellForger — README de Migração e Observações
 
 ## Descrição geral do projeto e da migração
-SpellForger é o frontend de uma aplicação de feitiços construída com Next.js (App Router). A migração partiu de um SPA React para o App Router do Next.js, adotando Server Components para partes pré-renderizadas e Client Components para interatividade. Principais mudanças:
+SpellForger é o frontend de uma aplicação de feitiços construída com Next.js (App Router), que chama nosso servidor de feitiços **(código em outro repositório)**. A migração partiu de um SPA React para o App Router do Next.js, adotando Server Components para partes pré-renderizadas e Client Components para interatividade. Principais mudanças:
 - Integração do layout e Providers globais (autenticação, toasts, query client).
 - Fetch de dados no servidor (SSG/SSR/ISR) onde faz sentido para SEO e performance.
 - Componentes de formulário e interação mantidos como Client Components para responsividade.
