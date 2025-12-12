@@ -44,7 +44,6 @@ Arquivos-chave: `src/app/layout.tsx`, `src/app/providers.tsx`, `src/contexts/Aut
   - Justificativa: Modais, notificações e interações ricas exigem execução no cliente.
 
 ### Comparação Lighthouse (antes / depois) — tela HOME  (SSG)
-*Observação: substitua pelos valores reais gerados localmente.*
 
 | Métrica | Antes (SPA) | Depois (Next.js) | Comentário curto |
 |---|---:|---:|---|
@@ -57,7 +56,6 @@ Arquivos-chave: `src/app/layout.tsx`, `src/app/providers.tsx`, `src/contexts/Aut
 ---
 
 ### Comparação Lighthouse (antes / depois) — tela SPELLS (ISR)
-*Observação: substitua pelos valores reais gerados localmente.*
 
 | Métrica | Antes (SPA) | Depois (Next.js) | Comentário curto |
 |---|---:|---:|---|
